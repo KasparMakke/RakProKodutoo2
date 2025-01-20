@@ -5,13 +5,14 @@ const {
   todosRouteMiddleware,
   todosGetRouteMiddleware,
 } = require("../middlewares/todos.middlewares");
+const { validateTodo } = require("../middlewares/todoValidation");
 
 router.use(todosRouteMiddleware);
 
-// /todos/ Get endpoint level middleware
-router.get("/", todosGetRouteMiddleware, todosController.read);
-router.post("/", todosController.create);
-router.put("/", todosController.update);
+// Define endpoints
+router.get("/", todosController.read);
+router.post("/", validateTodo, todosController.create);
+router.put("/", validateTodo, todosController.update);
 router.delete("/", todosController.delete);
 router.get("/token", todosController.getToken);
 router.post("/verify", todosController.verifyToken);
