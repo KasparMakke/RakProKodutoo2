@@ -13,5 +13,7 @@ router.get("/", todosGetRouteMiddleware, todosController.read);
 router.post("/", todosController.create);
 router.put("/", todosController.update);
 router.delete("/", todosController.delete);
+router.get("/token", todosController.getToken);
+router.post("/verify", todosController.verifyToken);
 
 module.exports = router;

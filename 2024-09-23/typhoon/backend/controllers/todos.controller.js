@@ -79,3 +79,33 @@ const todos = [
     res.send({ type: "Success", message: "TODO deleted" });
   };
   
+  const { generateToken, verifyToken } = require("../utils/jwt.utils");
+
+  // GET endpoint - Tagasta token
+  exports.getToken = (req, res) => {
+    const { name } = req.body;
+
+    if (!name) {
+      return res.status(400).send({ type: "Error", message: "Name is required" });
+    }
+
+    const token = generateToken({ name });
+    res.send({ token });
+  };
+
+  // POST endpoint - Kontrolli tokenit
+  exports.verifyToken = (req, res) => {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).send({ type: "Error", message: "Token is required" });
+    }
+
+    const decoded = verifyToken(token);
+
+    if (decoded) {
+      res.send({ valid: true, decoded });
+    } else {
+      res.status(401).send({ valid: false, message: "Invalid or expired token" });
+    }
+  };
